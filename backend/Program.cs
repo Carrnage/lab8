@@ -82,6 +82,7 @@ builder.Services.AddAuthorization(authOptions =>
     policyOptions.RequireClaim("groups", "admin");
   });
 });
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -93,6 +94,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsOptions =>
+ corsOptions.AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins("http://localhost:3000"));
 
 app.UseAuthentication();
 app.UseAuthorization();
